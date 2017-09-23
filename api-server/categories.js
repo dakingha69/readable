@@ -16,6 +16,38 @@ const defaultData = {
       {
         name: 'udacity',
         path: 'udacity'
+      },
+      {
+        name: 'funny',
+        path: 'funny'
+      },
+      {
+        name: 'nsfw',
+        path: 'nsfw'
+      },
+      {
+        name: 'technology',
+        path: 'technology'
+      },
+      {
+        name: 'art',
+        path: 'art'
+      },
+      {
+        name: 'random',
+        path: 'random'
+      },
+      {
+        name: 'cats',
+        path: 'cats'
+      },
+      {
+        name: 'dogs',
+        path: 'dogs'
+      },
+      {
+        name: 'life',
+        path: 'life'
       }
   ]
 }

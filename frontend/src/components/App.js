@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCategories } from '../actions/categories'
+import MenuInverted from './MenuInverted'
+import Categories from './Categories'
+import { fetchCategories } from '../actions'
 import './App.css'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   componentDidMount() {
     this.props.fetchCategories()
@@ -15,14 +14,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <MenuInverted />
+        <Categories />
         <div>hello</div>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ categories }) => ({
-  categories
+const mapStateToProps = ({ categoriesReducer }) => ({
+  categories: categoriesReducer.categories
 })
 
 const mapDispatchToProps = dispatch =>  ({
