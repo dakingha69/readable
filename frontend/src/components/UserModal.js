@@ -33,7 +33,7 @@ class UserModal extends Component {
   render() {
     const { username } = this.props
     return (
-      <Modal basic size='small' open={this.state.open}
+      <Modal basic size='small' open={this.state.open} onClose={() => this.setState({open: false})}
         trigger={
           <Button onClick={this.handleOpen}>
             <Icon name='user' />{username ? username : 'SET USERNAME'}

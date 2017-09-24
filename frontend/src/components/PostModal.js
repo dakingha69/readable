@@ -4,12 +4,16 @@ import { Button, Form, Header, Modal, Icon, Input } from 'semantic-ui-react'
 
 import UserModal from './UserModal'
 import { addPost, setUsername } from '../actions'
+import { generateId } from '../utils/id'
 
 class PostModal extends Component {
 
   state = {
-    username: '',
-    valid: false
+    username: this.props.username,
+    category: '',
+    title: '',
+    body: '',
+    open: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,33 +22,65 @@ class PostModal extends Component {
     }
   }
 
-  handleChange = (e, data) => {
-    this.setState({username: data.value})
+  handleChange = (e, { name, value }) => this.setState({[name]: value})
+
+  handleSubmit = () => {
+    const { username, category, title, body } = this.state
+    this.props.setUsername(this.state.username)
+    const post = {
+      id: generateId(),
+      timestamp: Date.now(),
+      author: username,
+      voteScore: 0,
+      deleted: false,
+      title,
+      body,
+      category
+    }
+    this.props.addPost(post)
+    this.setState({
+      category: '',
+      title: '',
+      body: '',
+      open: false
+    })
   }
 
-  handleAddPost = post => {
-
+  handleOpen = () => {
+    this.setState({open: true})
   }
 
   render() {
+    const { open, username, category, title, body } = this.state
     const { categories } = this.props
     return (
-      <Modal trigger={<Button><Icon name='plus'/>ADD POST</Button>}>
+      <Modal open={open} onClose={() => this.setState({open: false})}
+        trigger={
+          <Button onClick={this.handleOpen}>
+            <Icon name='plus'/>ADD POST
+          </Button>
+        }
+      >
         <Modal.Header>
           Add Post
         </Modal.Header>
         <Modal.Content>
-          <Form>
+          <Form onSubmit={this.handleSubmit}>
             <Form.Group widths='equal'>
-              <Form.Field>
-                <label>Author</label>
-                <Input fluid placeholder='Enter a username' value={this.state.username} onChange={this.handleChange} />
-              </Form.Field>
-              <Form.Select label='Category' options={categories} placeholder='Select a category' />
+              <Form.Input label='Author' placeholder='Enter a username'
+                name='username' value={username} onChange={this.handleChange}
+              />
+              <Form.Select label='Category' options={categories} placeholder='Select a category'
+                name='category' value={category} onChange={this.handleChange}
+              />
             </Form.Group>
-            <Form.Input label='Title' placeholder='Enter a title' />
-            <Form.TextArea label='Body' placeholder='What do you want to tell the world?' />
-            <Form.Button>Submit</Form.Button>
+            <Form.Input label='Title' placeholder='Enter a title'
+              name='title' value={title} onChange={this.handleChange}
+            />
+            <Form.TextArea label='Body' placeholder='What do you want to tell the world?'
+              name='body' value={body} onChange={this.handleChange}
+            />
+            <Form.Button>Post</Form.Button>
           </Form>
         </Modal.Content>
       </Modal>

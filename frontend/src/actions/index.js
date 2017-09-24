@@ -24,10 +24,12 @@ export const DELETE_POST = 'DELETE_POST'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 
-export const addPost = post => ({
-  type: ADD_POST,
-  post
-})
+export const addPost = post => dispatch => {
+  return API.fetchUrl('/posts', {
+    method: 'post',
+    body: JSON.stringify(post)
+  }).then(json => dispatch(requestPosts()))
+}
 
 export const editPost = post => ({
   type: EDIT_POST,
@@ -53,7 +55,7 @@ export const fetchPosts = (category = '') => dispatch => {
   const path = category ? `/${category.path}` : ''
   dispatch(requestPosts(category))
   return API.fetchUrl(`${path}/posts`)
-    .then(({ posts }) => dispatch(receivePosts(posts)))
+    .then(posts => dispatch(receivePosts(posts)))
 }
 
 /**

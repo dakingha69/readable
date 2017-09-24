@@ -6,12 +6,6 @@ import {
 
 const postsReducer = (state = {}, action) => {
   switch (action.type) {
-    case ADD_POST:
-      const { post } = action
-      return {
-        ...state,
-        posts: state.posts.push(post)
-      }
     case REQUEST_POSTS:
       const { category } = action
       return {
