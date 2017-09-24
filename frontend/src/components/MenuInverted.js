@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Menu, Dropdown } from 'semantic-ui-react'
+import { Menu, Dropdown, Icon } from 'semantic-ui-react'
 
+import PostModal from './PostModal'
+import UserModal from './UserModal'
 import { fetchPosts } from '../actions'
 
 class MenuInverted extends Component {
@@ -9,16 +11,20 @@ class MenuInverted extends Component {
   handleSort = (e, { name }) => console.log(name) // TODO sort posts
 
   render() {
-    const { categories } = this.props
+    const { username } = this.props
     return (
       <Menu inverted size='large'>
         <Menu.Item>Readable</Menu.Item>
         <Menu.Item name='topRated' onClick={this.handleSort}>
-          TOP RATED
+          <Icon name='star'/>TOP RATED
         </Menu.Item>
         <Menu.Item name='mostRecent' onClick={this.handleSort}>
-          MOST RECENT
+          <Icon name='clock'/>MOST RECENT
         </Menu.Item>
+        <Menu.Menu position='right'>
+          <Menu.Item><PostModal /></Menu.Item>
+          <Menu.Item><UserModal /></Menu.Item>
+        </Menu.Menu>
       </Menu>
     )
   }

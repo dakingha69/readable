@@ -12,7 +12,6 @@ class Categories extends Component {
   }
 
   handleCategoryClick = (e, { children }) => {
-    console.log(children)
     this.setState({active: children})
   }
 

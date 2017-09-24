@@ -36,3 +36,19 @@ export const fetchPosts = (category = '') => dispatch => (
     .then(() => API.fetchUrl(`${category}/posts`))
     .then(({ posts }) => dispatch(receivePosts(posts)))
 )
+}
+
+/**
+ * USER ACTIONS
+ */
+export const SET_USERNAME = 'SET_USERNAME'
+export const GET_USERNAME = 'GET_USERNAME'
+
+export const setUsername = username => ({
+  type: SET_USERNAME,
+  username
+})
+
+export const getUsername = () => ({
+  type: GET_USERNAME
+})
