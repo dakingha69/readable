@@ -4,6 +4,7 @@ import * as API from '../utils/api'
  * CATEGORY ACTIONS
  */
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES'
+export const SET_CATEGORY = 'SET_CATEGORY'
 
 export const receiveCategories = categories => ({
   type: RECEIVE_CATEGORIES,
@@ -28,7 +29,7 @@ export const addPost = post => dispatch => {
   return API.fetchUrl('/posts', {
     method: 'post',
     body: JSON.stringify(post)
-  }).then(json => dispatch(requestPosts()))
+  }).then(json => dispatch(fetchPosts(post.category)))
 }
 
 export const editPost = post => ({
@@ -52,7 +53,7 @@ export const receivePosts = posts => ({
 })
 
 export const fetchPosts = (category = '') => dispatch => {
-  const path = category ? `/${category.path}` : ''
+  const path = category ? `/${category}` : ''
   dispatch(requestPosts(category))
   return API.fetchUrl(`${path}/posts`)
     .then(posts => dispatch(receivePosts(posts)))

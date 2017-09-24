@@ -13,6 +13,7 @@ class Categories extends Component {
 
   handleCategoryClick = (e, { children }) => {
     this.setState({active: children})
+    this.props.fetchPosts(children === 'all' ? '' : children)
   }
 
   render() {

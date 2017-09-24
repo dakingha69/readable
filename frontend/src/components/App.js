@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Container } from 'semantic-ui-react'
 import MenuInverted from './MenuInverted'
 import Categories from './Categories'
+import PostsList from './PostsList'
 import { fetchCategories, fetchPosts, getUsername } from '../actions'
 import './App.css'
 
@@ -21,7 +22,7 @@ class App extends Component {
         <MenuInverted />
         <Categories />
         <Container>
-          <div>hello</div>
+          <PostsList />
         </Container>
       </div>
     )
