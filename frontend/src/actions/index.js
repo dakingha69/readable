@@ -18,8 +18,26 @@ export const fetchCategories = () => dispatch => (
 /**
  * POST ACTIONS
  */
+export const ADD_POST = 'ADD_POST'
+export const EDIT_POST = 'EDIT_POST'
+export const DELETE_POST = 'DELETE_POST'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+
+export const addPost = post => ({
+  type: ADD_POST,
+  post
+})
+
+export const editPost = post => ({
+  type: EDIT_POST,
+  post
+})
+
+export const deletePost = post => ({
+  type: DELETE_POST,
+  post
+})
 
 export const requestPosts = (category = '') => ({
   type: REQUEST_POSTS,
@@ -31,11 +49,11 @@ export const receivePosts = posts => ({
   posts
 })
 
-export const fetchPosts = (category = '') => dispatch => (
+export const fetchPosts = (category = '') => dispatch => {
+  const path = category ? `/${category.path}` : ''
   dispatch(requestPosts(category))
-    .then(() => API.fetchUrl(`${category}/posts`))
+  return API.fetchUrl(`${path}/posts`)
     .then(({ posts }) => dispatch(receivePosts(posts)))
-)
 }
 
 /**
