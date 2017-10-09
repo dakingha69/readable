@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Menu, Dropdown, Icon } from 'semantic-ui-react'
+import { Menu, Icon } from 'semantic-ui-react'
 
 import PostModal from './PostModal'
 import UserModal from './UserModal'
@@ -14,7 +14,7 @@ class MenuInverted extends Component {
   }
 
   render() {
-    const { username, sort } = this.props
+    const { sort } = this.props
     return (
       <Menu inverted size='large'>
         <Menu.Item>Readable</Menu.Item>

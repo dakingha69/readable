@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, Header, Modal, Icon, Input } from 'semantic-ui-react'
+import { Button, Form, Modal, Icon } from 'semantic-ui-react'
 
-import UserModal from './UserModal'
 import { addPost, setUsername } from '../actions'
 import { generateId } from '../utils/id'
 

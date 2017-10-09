@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, Header, Modal, Icon, Input } from 'semantic-ui-react'
+import { Button, Header, Modal, Icon, Input } from 'semantic-ui-react'
 
 import { setUsername, getUsername } from '../actions'
 
