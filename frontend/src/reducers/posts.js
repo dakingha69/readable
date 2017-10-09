@@ -1,5 +1,4 @@
 import {
-  ADD_POST,
   REQUEST_POSTS,
   RECEIVE_POSTS,
   SET_SORT

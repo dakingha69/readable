@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Item, Icon, Statistic, Grid, Button } from 'semantic-ui-react'
-import dateformat from 'dateformat'
+import { Item } from 'semantic-ui-react'
 
+import PostItem from './PostItem'
+import { votePost } from '../actions'
 import './App.css'
 
 class PostsList extends Component {
@@ -21,38 +22,13 @@ class PostsList extends Component {
       <Item.Group>
         {
           sortedPosts.map(post => (
-              <Item key={post.id}>
-                <Item.Image size='small'>
-                  <Grid columns={1}>
-                    <Grid.Row className='no-padding-bottom'>
-                      <Grid.Column textAlign='center'>
-                        <Statistic size='small'>
-                          <Statistic.Value>{post.voteScore}</Statistic.Value>
-                        </Statistic>
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row columns={2} className='no-padding-top'>
-                      <Grid.Column textAlign='right'>
-                        <Button inverted color='red' icon='thumbs down' />
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Button inverted color='green' icon='thumbs up' />
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                </Item.Image>
-                <Item.Content>
-                  <Item.Header as='a'>{post.title}</Item.Header>
-                  <Item.Meta>
-                    posted by <strong>{post.author}</strong>
-                    on <strong>{dateformat(post.timestamp)}</strong>
-                  </Item.Meta>
-                  <Item.Description>{post.body}</Item.Description>
-                  <Item.Extra></Item.Extra>
-                </Item.Content>
-              </Item>
-            )
-          )
+            <PostItem
+              key={post.id}
+              post={post}
+              votePost={this.props.votePost}
+              selectedCategory={this.props.selectedCategory}
+            />
+          ))
         }
       </Item.Group>
     )
@@ -61,9 +37,15 @@ class PostsList extends Component {
 
 const mapStateToProps = ({ postsReducer }) => ({
   posts: postsReducer.posts,
-  sort: postsReducer.sort
+  sort: postsReducer.sort,
+  selectedCategory: postsReducer.category
+})
+
+const mapDispatchToProps = dispatch => ({
+  votePost: (post, vote, category) => dispatch(votePost(post, vote, category))
 })
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(PostsList)
