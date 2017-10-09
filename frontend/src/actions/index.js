@@ -66,7 +66,12 @@ export const fetchPosts = (category = '') => dispatch => {
   dispatch(requestPosts(category))
   dispatch(setCategory(category ? category : 'all'))
   return API.fetchUrl(`${path}/posts`)
-    .then(posts => dispatch(receivePosts(posts)))
+    .then(posts => {
+      Promise.all(posts.map(post =>
+        API.fetchUrl(`/posts/${post.id}/comments`)
+          .then(comments => ({...post, comments}))
+      )).then(resolvedPosts => dispatch(receivePosts(resolvedPosts)))  
+    })
 }
 
 export const setSort = sort => ({
