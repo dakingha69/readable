@@ -7,12 +7,20 @@ import './App.css'
 
 class PostsList extends Component {
   render() {
-    const { posts } = this.props
+    const { posts, sort } = this.props
+    const sortedPosts = posts ? posts.sort((a, b) => {
+      if (sort === 'topRated') {
+        return b.voteScore - a.voteScore
+      } else if (sort === 'mostRecent') {
+        return b.timestamp - a.timestamp
+      } else {
+        return posts
+      }
+    }) : []
     return (
       <Item.Group>
         {
-          posts
-            ? posts.map(post => (
+          sortedPosts.map(post => (
               <Item key={post.id}>
                 <Item.Image size='small'>
                   <Grid columns={1}>
@@ -43,8 +51,8 @@ class PostsList extends Component {
                   <Item.Extra></Item.Extra>
                 </Item.Content>
               </Item>
-            ))
-            : ''
+            )
+          )
         }
       </Item.Group>
     )
@@ -52,7 +60,8 @@ class PostsList extends Component {
 }
 
 const mapStateToProps = ({ postsReducer }) => ({
-  posts: postsReducer.posts
+  posts: postsReducer.posts,
+  sort: postsReducer.sort
 })
 
 export default connect(

@@ -4,21 +4,30 @@ import { Menu, Dropdown, Icon } from 'semantic-ui-react'
 
 import PostModal from './PostModal'
 import UserModal from './UserModal'
-import { fetchPosts } from '../actions'
+import { fetchPosts, setSort } from '../actions'
+import './App.css'
 
 class MenuInverted extends Component {
 
-  handleSort = (e, { name }) => console.log(name) // TODO sort posts
+  handleSort = (e, { name }) => {
+    this.props.setSort(name)
+  }
 
   render() {
-    const { username } = this.props
+    const { username, sort } = this.props
     return (
       <Menu inverted size='large'>
         <Menu.Item>Readable</Menu.Item>
-        <Menu.Item name='topRated' onClick={this.handleSort}>
+        <Menu.Item className={sort === 'topRated' ? 'higlight-sort' : ''}
+          name='topRated'
+          onClick={this.handleSort}
+        >
           <Icon name='star'/>TOP RATED
         </Menu.Item>
-        <Menu.Item name='mostRecent' onClick={this.handleSort}>
+        <Menu.Item className={sort === 'mostRecent' ? 'higlight-sort' : ''}
+          name='mostRecent'
+          onClick={this.handleSort}
+        >
           <Icon name='clock'/>MOST RECENT
         </Menu.Item>
         <Menu.Menu position='right'>
@@ -30,12 +39,14 @@ class MenuInverted extends Component {
   }
 }
 
-const mapStateToProps = ({ categoriesReducer }) => ({
-  categories: categoriesReducer.categories
+const mapStateToProps = ({ categoriesReducer, postsReducer }) => ({
+  categories: categoriesReducer.categories,
+  sort: postsReducer.sort
 })
 
 const mapDispatchToProps = dispatch =>  ({
-  fetchPosts: category => dispatch(fetchPosts(category))
+  fetchPosts: category => dispatch(fetchPosts(category)),
+  setSort: sort => dispatch(setSort(sort))
 })
 
 export default connect(

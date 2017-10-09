@@ -1,7 +1,8 @@
 import {
   ADD_POST,
   REQUEST_POSTS,
-  RECEIVE_POSTS
+  RECEIVE_POSTS,
+  SET_SORT
 } from '../actions'
 
 const postsReducer = (state = {}, action) => {
@@ -19,6 +20,12 @@ const postsReducer = (state = {}, action) => {
         ...state,
         fetching: false,
         posts
+      }
+    case SET_SORT:
+      const { sort } = action
+      return {
+        ...state,
+        sort
       }
     default:
       return state

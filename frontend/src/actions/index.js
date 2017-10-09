@@ -29,6 +29,7 @@ export const EDIT_POST = 'EDIT_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const SET_SORT = 'SET_SORT'
 
 export const addPost = post => dispatch => {
   return API.fetchUrl('/posts', {
@@ -64,6 +65,11 @@ export const fetchPosts = (category = '') => dispatch => {
   return API.fetchUrl(`${path}/posts`)
     .then(posts => dispatch(receivePosts(posts)))
 }
+
+export const setSort = sort => ({
+  type: SET_SORT,
+  sort
+})
 
 /**
  * USER ACTIONS
