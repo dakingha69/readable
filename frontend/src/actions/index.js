@@ -16,6 +16,11 @@ export const fetchCategories = () => dispatch => (
     .then(({ categories }) => dispatch(receiveCategories(categories)))
 )
 
+export const setCategory = category => ({
+  type: SET_CATEGORY,
+  category
+})
+
 /**
  * POST ACTIONS
  */
@@ -55,6 +60,7 @@ export const receivePosts = posts => ({
 export const fetchPosts = (category = '') => dispatch => {
   const path = category ? `/${category}` : ''
   dispatch(requestPosts(category))
+  dispatch(setCategory(category ? category : 'all'))
   return API.fetchUrl(`${path}/posts`)
     .then(posts => dispatch(receivePosts(posts)))
 }

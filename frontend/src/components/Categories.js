@@ -11,9 +11,19 @@ class Categories extends Component {
     active: 'all'
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selectedCategory !== nextProps.selectedCategory) {
+      this.changeCategory(nextProps.selectedCategory)
+    }
+  }
+
   handleCategoryClick = (e, { children }) => {
-    this.setState({active: children})
-    this.props.fetchPosts(children === 'all' ? '' : children)
+    this.changeCategory(children)
+  }
+
+  changeCategory = (category) => {
+    this.setState({active: category})
+    this.props.fetchPosts(category === 'all' ? '' : category)
   }
 
   render() {
@@ -43,7 +53,8 @@ class Categories extends Component {
 }
 
 const mapStateToProps = ({ categoriesReducer }) => ({
-  categories: categoriesReducer.categories
+  categories: categoriesReducer.categories,
+  selectedCategory: categoriesReducer.category
 })
 
 const mapDispatchToProps = dispatch =>  ({

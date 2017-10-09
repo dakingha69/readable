@@ -4,7 +4,11 @@ import { Container } from 'semantic-ui-react'
 import MenuInverted from './MenuInverted'
 import Categories from './Categories'
 import PostsList from './PostsList'
-import { fetchCategories, fetchPosts, getUsername } from '../actions'
+import {
+  fetchCategories,
+  fetchPosts,
+  getUsername
+} from '../actions'
 import './App.css'
 
 class App extends Component {
