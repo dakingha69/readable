@@ -80,6 +80,16 @@ export const setSort = sort => ({
 })
 
 /**
+ * COMMENTS ACTIONS
+ */
+export const voteComment = (comment, vote) => dispatch => {
+  return API.fetchUrl(`/comments/${comment.id}`, {
+    method: 'post',
+    body: JSON.stringify({option: vote})
+  }).then(json => dispatch(fetchPosts()))
+}
+
+/**
  * USER ACTIONS
  */
 export const SET_USERNAME = 'SET_USERNAME'

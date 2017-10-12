@@ -6,6 +6,15 @@ import dateformat from 'dateformat'
 import './App.css'
 
 class CommentItem extends Component {
+  handleVote = (e, { icon }) => {
+    const { comment, voteComment } = this.props
+    if (icon === 'thumbs down') {
+      voteComment(comment, 'downVote')
+    } else {
+      voteComment(comment, 'upVote')
+    }
+  }
+
   render() {
     const { comment } = this.props
     console.log(comment)
