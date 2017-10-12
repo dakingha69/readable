@@ -14,6 +14,9 @@ import { getColor } from '../utils/category'
 import './App.css'
 
 class PostDetail extends Component {
+  state = {
+    post: ''
+  }
 
   componentDidMount() {
     this.props.fetchCategories()
@@ -21,18 +24,27 @@ class PostDetail extends Component {
     this.props.getUsername()
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { posts, match } = this.props
+    if (posts !== nextProps.posts) {
+      this.setState({
+        post: nextProps.posts.filter(p => p.id === match.params.id)[0]
+      })
+    }
+  }
+
   handleVote = (e, { icon }) => {
-    const { post, votePost, selectedCategory } = this.props
+    const { votePost } = this.props
+    const { post } = this.state
     if (icon === 'thumbs down') {
-      votePost(post, 'downVote', selectedCategory)
+      votePost(post, 'downVote', 'all')
     } else {
-      votePost(post, 'upVote', selectedCategory)
+      votePost(post, 'upVote', 'all')
     }
   }
 
   render() {
-    const { posts, match } = this.props
-    const post = posts ? posts.filter(p => p.id === match.params.id)[0] : null
+    const { post } = this.state
     return (
       <div className="App">
         <MenuInverted isDetail={true} />
