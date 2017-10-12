@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Item } from 'semantic-ui-react'
 
 import PostItem from './PostItem'
-import { votePost } from '../actions'
+import { votePost, deletePost } from '../actions'
 import './App.css'
 
 class PostsList extends Component {
@@ -26,6 +26,7 @@ class PostsList extends Component {
               key={post.id}
               post={post}
               votePost={this.props.votePost}
+              deletePost={this.props.deletePost}
               selectedCategory={this.props.selectedCategory}
             />
           ))
@@ -42,7 +43,8 @@ const mapStateToProps = ({ postsReducer }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  votePost: (post, vote, category) => dispatch(votePost(post, vote, category))
+  votePost: (post, vote, category) => dispatch(votePost(post, vote, category)),
+  deletePost: post => dispatch(deletePost(post))
 })
 
 export default connect(

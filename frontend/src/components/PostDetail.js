@@ -10,7 +10,8 @@ import {
   fetchCategories,
   fetchPosts,
   getUsername,
-  votePost
+  votePost,
+  deletePost
 } from '../actions'
 import { getColor } from '../utils/category'
 import './App.css'
@@ -45,6 +46,11 @@ class PostDetail extends Component {
     }
   }
 
+  handleDeletePost = e => {
+    this.props.deletePost(this.state.post)
+    this.props.history.push('/')
+  }
+
   render() {
     const { post } = this.state
     return (
@@ -77,9 +83,10 @@ class PostDetail extends Component {
                   in <Label as='a' tag color={getColor(post.category)}>{post.category}</Label>
                 </Header.Subheader>
                 <p style={{fontSize: '18px', marginTop: '10px'}}>{post.body}</p>
-                <p style={{color: 'grey'}}>
-                  <PostModal isEdit={true} post={post} />
-                </p>
+                <PostModal isEdit={true} post={post} />
+                <a className='custom-link' onClick={this.handleDeletePost}>
+                  &nbsp;Delete
+                </a>
               </Grid.Column>
             </Grid>
             <CommentList comments={post.comments ? post.comments : []} />
@@ -100,7 +107,8 @@ const mapDispatchToProps = dispatch =>  ({
   fetchCategories: () => dispatch(fetchCategories()),
   fetchPosts: () => dispatch(fetchPosts()),
   getUsername: () => dispatch(getUsername()),
-  votePost: (post, vote, category) => dispatch(votePost(post, vote, category))
+  votePost: (post, vote, category) => dispatch(votePost(post, vote, category)),
+  deletePost: post => dispatch(deletePost(post))
 })
 
 export default connect(

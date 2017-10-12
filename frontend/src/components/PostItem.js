@@ -16,12 +16,8 @@ class PostItem extends Component {
     }
   }
 
-  handleEdit = e => {
-    console.log('EDIT POST', this.props.post)
-  }
-
   handleDelete = e => {
-    console.log('DELETE POST', this.props.post)
+    this.props.deletePost(this.props.post)
   }
 
   render() {
@@ -59,11 +55,11 @@ class PostItem extends Component {
           </Item.Meta>
           <Item.Description>{post.body}</Item.Description>
           <Item.Extra>
-            <Link to={`/posts/${post.id}`}>
+            <Link to={`/posts/${post.id}`} className='custom-link'>
               Comments({post.comments.length})
             </Link>
             <PostModal isEdit={true} post={post}/>
-            <a className='span-margin' onClick={this.handleDelete}>
+            <a className='custom-link' onClick={this.handleDelete}>
               Delete
             </a>
           </Item.Extra>

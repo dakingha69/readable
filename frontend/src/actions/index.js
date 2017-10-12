@@ -35,7 +35,7 @@ export const addPost = post => dispatch => {
   return API.fetchUrl('/posts', {
     method: 'post',
     body: JSON.stringify(post)
-  }).then(json => dispatch(fetchPosts(post.category)))
+  }).then(json => dispatch(fetchPosts()))
 }
 
 export const votePost = (post, vote, selectedCategory) => dispatch => {
@@ -47,17 +47,17 @@ export const votePost = (post, vote, selectedCategory) => dispatch => {
 }
 
 export const editPost = post => dispatch => {
-  console.log(post)
   return API.fetchUrl(`/posts/${post.id}`, {
     method: 'put',
     body: JSON.stringify({title: post.title, body: post.body})
   }).then(json => dispatch(fetchPosts()))
 }
 
-export const deletePost = post => ({
-  type: DELETE_POST,
-  post
-})
+export const deletePost = post => dispatch => {
+  return API.fetchUrl(`/posts/${post.id}`, {
+    method: 'delete'
+  }).then(json => dispatch(fetchPosts()))
+}
 
 export const requestPosts = (category = '') => ({
   type: REQUEST_POSTS,
@@ -74,8 +74,9 @@ export const fetchPosts = (category = '') => dispatch => {
   dispatch(requestPosts(category))
   dispatch(setCategory(category ? category : 'all'))
   return API.fetchUrl(`${path}/posts`)
-    .then(posts => {
-      Promise.all(posts.map(post =>
+    .then(posts => posts.filter(p => p.deleted === false))
+    .then(filteredPosts => {
+      Promise.all(filteredPosts.map(post =>
         API.fetchUrl(`/posts/${post.id}/comments`)
           .then(comments => ({...post, comments}))
       )).then(resolvedPosts => dispatch(receivePosts(resolvedPosts)))
