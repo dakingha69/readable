@@ -33,3 +33,7 @@
 .higlight-sort {
   color: cyan !important;
 }
+
+.span-margin {
+  margin-left: 5px !important;
+}

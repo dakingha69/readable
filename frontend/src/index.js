@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import App from './components/App'
+import PostDetail from './components/PostDetail'
 import registerServiceWorker from './registerServiceWorker'
 import rootReducer from './reducers'
 
@@ -20,7 +21,10 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route exact path="/" component={App} />
+      <div>
+        <Route exact path='/' component={App} />
+        <Route path='/posts/:id' component={PostDetail} />
+      </div>
     </Router>
   </Provider>,
   document.getElementById('root')

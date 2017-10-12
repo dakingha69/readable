@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Menu, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 import PostModal from './PostModal'
 import UserModal from './UserModal'
@@ -13,25 +14,29 @@ class MenuInverted extends Component {
     this.props.setSort(name)
   }
 
+  getDisplay = isDetail => ({ display: isDetail ? 'none' : ''})
+
   render() {
-    const { sort } = this.props
+    const { sort, isDetail } = this.props
     return (
       <Menu inverted size='large'>
-        <Menu.Item>Readable</Menu.Item>
+        <Menu.Item as={Link} to='/'>Readable</Menu.Item>
         <Menu.Item className={sort === 'topRated' ? 'higlight-sort' : ''}
+          style={this.getDisplay(isDetail)}
           name='topRated'
           onClick={this.handleSort}
         >
           <Icon name='star'/>TOP RATED
         </Menu.Item>
         <Menu.Item className={sort === 'mostRecent' ? 'higlight-sort' : ''}
+          style={this.getDisplay(isDetail)}
           name='mostRecent'
           onClick={this.handleSort}
         >
           <Icon name='clock'/>MOST RECENT
         </Menu.Item>
         <Menu.Menu position='right'>
-          <Menu.Item><PostModal /></Menu.Item>
+          <Menu.Item style={this.getDisplay(isDetail)}><PostModal /></Menu.Item>
           <Menu.Item><UserModal /></Menu.Item>
         </Menu.Menu>
       </Menu>

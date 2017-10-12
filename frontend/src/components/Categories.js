@@ -29,7 +29,7 @@ class Categories extends Component {
   render() {
     const { categories } = this.props
     return (
-      <div>
+      <div style={{marginBottom: '25px'}}>
         <Label size='large' as='a' tag
           active={this.state.active === 'all'}
           color='black'

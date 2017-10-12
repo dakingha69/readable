@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Item, Statistic, Button, Grid } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import dateformat from 'dateformat'
 
 import './App.css'
@@ -12,6 +13,14 @@ class PostItem extends Component {
     } else {
       votePost(post, 'upVote', selectedCategory)
     }
+  }
+
+  handleEdit = e => {
+    console.log('EDIT POST', this.props.post)
+  }
+
+  handleDelete = e => {
+    console.log('DELETE POST', this.props.post)
   }
 
   render() {
@@ -40,13 +49,25 @@ class PostItem extends Component {
           </Grid>
         </Item.Image>
         <Item.Content>
-          <Item.Header as='a'>{post.title}</Item.Header>
+          <Item.Header as={Link} to={`/posts/${post.id}`}>
+            {post.title}
+          </Item.Header>
           <Item.Meta>
             posted by <strong>{post.author}</strong>
             on <strong>{dateformat(post.timestamp)}</strong>
           </Item.Meta>
           <Item.Description>{post.body}</Item.Description>
-          <Item.Extra></Item.Extra>
+          <Item.Extra>
+            <Link to={`/posts/${post.id}`}>
+              Comments ({post.comments.length})
+            </Link>|
+            <a className='span-margin' onClick={this.handleEdit}>
+              Edit
+            </a>|
+            <a className='span-margin' onClick={this.handleDelete}>
+              Delete
+            </a>
+          </Item.Extra>
         </Item.Content>
       </Item>
     )
