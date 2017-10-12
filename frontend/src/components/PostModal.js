@@ -2,17 +2,31 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, Modal, Icon } from 'semantic-ui-react'
 
-import { addPost, setUsername } from '../actions'
+import { addPost, editPost, setUsername } from '../actions'
 import { generateId } from '../utils/id'
+import './App.css'
 
 class PostModal extends Component {
 
   state = {
+    author: '',
     username: this.props.username,
     category: '',
     title: '',
     body: '',
     open: false,
+  }
+
+  componentDidMount() {
+    const { username, isEdit, post } = this.props
+    if (isEdit) {
+      this.setState({
+        author: post.author,
+        category: post.category,
+        title: post.title,
+        body: post.body,
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,19 +38,20 @@ class PostModal extends Component {
   handleChange = (e, { name, value }) => this.setState({[name]: value})
 
   handleSubmit = () => {
-    const { username, category, title, body } = this.state
-    this.props.setUsername(this.state.username)
-    const post = {
-      id: generateId(),
+    const { username, author, category, title, body } = this.state
+    const { isEdit, addPost, setUsername, editPost, post } = this.props
+    setUsername(username)
+    const newPost = {
+      id: isEdit ? post.id : generateId(),
       timestamp: Date.now(),
-      author: username,
+      author: isEdit ? author : username,
       voteScore: 0,
       deleted: false,
       title,
       body,
       category
     }
-    this.props.addPost(post)
+    isEdit ? editPost(newPost) : addPost(newPost)
     this.setState({
       category: '',
       title: '',
@@ -45,31 +60,35 @@ class PostModal extends Component {
     })
   }
 
-  handleOpen = () => {
+  handleOpen = e => {
     this.setState({open: true})
   }
 
   render() {
     const { open, username, category, title, body } = this.state
-    const { categories } = this.props
+    const { categories, isEdit, post } = this.props
     return (
       <Modal open={open} onClose={() => this.setState({open: false})}
         trigger={
+          isEdit ?
+          <a className='custom-link' onClick={this.handleOpen}>Edit</a> :
           <Button onClick={this.handleOpen}>
             <Icon name='plus'/>ADD POST
           </Button>
         }
       >
         <Modal.Header>
-          Add Post
+          {
+            isEdit ? 'Edit Post' : 'Add Post'
+          }
         </Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group widths='equal'>
-              <Form.Input label='Author' placeholder='Enter a username'
-                name='username' value={username} onChange={this.handleChange}
+              <Form.Input disabled={isEdit} label='Author' placeholder='Enter a username'
+                name='username' value={isEdit ? post.author : username} onChange={this.handleChange}
               />
-              <Form.Select label='Category' options={categories} placeholder='Select a category'
+              <Form.Select disabled={isEdit} label='Category' options={categories} placeholder='Select a category'
                 name='category' value={category} onChange={this.handleChange}
               />
             </Form.Group>
@@ -98,6 +117,7 @@ const mapStateToProps = ({ categoriesReducer, userReducer }) => ({
 
 const mapDispatchToProps = dispatch =>  ({
   addPost: post => dispatch(addPost(post)),
+  editPost: post => dispatch(editPost(post)),
   setUsername: username => dispatch(setUsername(username))
 })
 

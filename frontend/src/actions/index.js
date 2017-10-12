@@ -46,6 +46,14 @@ export const votePost = (post, vote, selectedCategory) => dispatch => {
   }).then(json => dispatch(fetchPosts(category)))
 }
 
+export const editPost = post => dispatch => {
+  console.log(post)
+  return API.fetchUrl(`/posts/${post.id}`, {
+    method: 'put',
+    body: JSON.stringify({title: post.title, body: post.body})
+  }).then(json => dispatch(fetchPosts()))
+}
+
 export const deletePost = post => ({
   type: DELETE_POST,
   post

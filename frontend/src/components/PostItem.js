@@ -3,6 +3,7 @@ import { Item, Statistic, Button, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import dateformat from 'dateformat'
 
+import PostModal from './PostModal'
 import './App.css'
 
 class PostItem extends Component {
@@ -59,11 +60,9 @@ class PostItem extends Component {
           <Item.Description>{post.body}</Item.Description>
           <Item.Extra>
             <Link to={`/posts/${post.id}`}>
-              Comments ({post.comments.length})
-            </Link>|
-            <a className='span-margin' onClick={this.handleEdit}>
-              Edit
-            </a>|
+              Comments({post.comments.length})
+            </Link>
+            <PostModal isEdit={true} post={post}/>
             <a className='span-margin' onClick={this.handleDelete}>
               Delete
             </a>

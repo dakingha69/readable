@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Container, Header, Label, Grid, Statistic, Button } from 'semantic-ui-react'
 import dateformat from 'dateformat'
 
+import PostModal from './PostModal'
 import MenuInverted from './MenuInverted'
 import CommentList from './CommentList'
 import {
@@ -76,6 +77,9 @@ class PostDetail extends Component {
                   in <Label as='a' tag color={getColor(post.category)}>{post.category}</Label>
                 </Header.Subheader>
                 <p style={{fontSize: '18px', marginTop: '10px'}}>{post.body}</p>
+                <p style={{color: 'grey'}}>
+                  <PostModal isEdit={true} post={post} />
+                </p>
               </Grid.Column>
             </Grid>
             <CommentList comments={post.comments ? post.comments : []} />

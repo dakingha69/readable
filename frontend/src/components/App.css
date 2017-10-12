@@ -37,3 +37,12 @@
 .span-margin {
   margin-left: 5px !important;
 }
+
+.custom-link {
+  color: grey !important;
+}
+
+.custom-link:hover {
+  color: darkgrey !important;
+  cursor: pointer;
+}
