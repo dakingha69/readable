@@ -4,6 +4,7 @@ import { Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 import PostModal from './PostModal'
+import CommentModal from './CommentModal'
 import UserModal from './UserModal'
 import { fetchPosts, setSort } from '../actions'
 import './App.css'
@@ -36,7 +37,12 @@ class MenuInverted extends Component {
           <Icon name='clock'/>MOST RECENT
         </Menu.Item>
         <Menu.Menu position='right'>
-          <Menu.Item style={this.getDisplay(isDetail)}><PostModal /></Menu.Item>
+          <Menu.Item style={this.getDisplay(isDetail)}>
+            <PostModal />
+          </Menu.Item>
+          <Menu.Item style={this.getDisplay(!isDetail)}>
+            <CommentModal parentId={this.props.postId}/>
+          </Menu.Item>
           <Menu.Item><UserModal /></Menu.Item>
         </Menu.Menu>
       </Menu>

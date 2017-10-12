@@ -70,7 +70,7 @@ export const fetchPosts = (category = '') => dispatch => {
       Promise.all(posts.map(post =>
         API.fetchUrl(`/posts/${post.id}/comments`)
           .then(comments => ({...post, comments}))
-      )).then(resolvedPosts => dispatch(receivePosts(resolvedPosts)))  
+      )).then(resolvedPosts => dispatch(receivePosts(resolvedPosts)))
     })
 }
 
@@ -82,6 +82,13 @@ export const setSort = sort => ({
 /**
  * COMMENTS ACTIONS
  */
+export const addComment = comment => dispatch => {
+  return API.fetchUrl('/comments', {
+    method: 'post',
+    body: JSON.stringify(comment)
+  }).then(json => dispatch(fetchPosts()))
+}
+
 export const voteComment = (comment, vote) => dispatch => {
   return API.fetchUrl(`/comments/${comment.id}`, {
     method: 'post',

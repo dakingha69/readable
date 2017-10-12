@@ -48,7 +48,7 @@ class PostDetail extends Component {
     const { post } = this.state
     return (
       <div className="App">
-        <MenuInverted isDetail={true} />
+        <MenuInverted isDetail={true} postId={post.id} />
         {
           post ?
           <Container>
