@@ -4,6 +4,7 @@ import { Container, Header, Label, Grid, Statistic, Button } from 'semantic-ui-r
 import dateformat from 'dateformat'
 
 import MenuInverted from './MenuInverted'
+import CommentList from './CommentList'
 import {
   fetchCategories,
   fetchPosts,
@@ -58,11 +59,11 @@ class PostDetail extends Component {
                     <Statistic.Value>{post.voteScore}</Statistic.Value>
                   </Statistic>
                 </Grid.Column>
-                <Grid.Column width={1} textAlign='right' className='no-padding-top'>
+                <Grid.Column className='no-padding-top' style={{float: 'left'}}>
                   <Button inverted color='red' icon='thumbs down'
                     onClick={this.handleVote}/>
                 </Grid.Column>
-                <Grid.Column>
+                <Grid.Column style={{float: 'right'}}>
                   <Button inverted color='green' icon='thumbs up'
                     onClick={this.handleVote}/>
                 </Grid.Column>
@@ -77,6 +78,7 @@ class PostDetail extends Component {
                 <p style={{fontSize: '18px', marginTop: '10px'}}>{post.body}</p>
               </Grid.Column>
             </Grid>
+            <CommentList comments={post.comments ? post.comments : []} />
           </Container> :
           <div>Loading...</div>
         }
