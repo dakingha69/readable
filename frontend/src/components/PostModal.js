@@ -53,9 +53,9 @@ class PostModal extends Component {
     }
     isEdit ? editPost(newPost) : addPost(newPost)
     this.setState({
-      category: '',
-      title: '',
-      body: '',
+      category: isEdit ? newPost.category : '',
+      title: isEdit ? newPost.title : '',
+      body: isEdit ? newPost.body : '',
       open: false
     })
   }

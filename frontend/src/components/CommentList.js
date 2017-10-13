@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Comment, Header } from 'semantic-ui-react'
 
 import CommentItem from './CommentItem'
-import { voteComment } from '../actions'
+import { voteComment, editComment, deleteComment } from '../actions'
 import './App.css'
 
 class CommentList extends Component {
@@ -19,6 +19,7 @@ class CommentList extends Component {
               key={comment.id}
               comment={comment}
               voteComment={this.props.voteComment}
+              deleteComment={this.props.deleteComment}
             />
           ))
         }
@@ -32,7 +33,8 @@ const mapStateToProps = ({ postsReducer }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  voteComment: (comment, vote) => dispatch(voteComment(comment, vote))
+  voteComment: (comment, vote) => dispatch(voteComment(comment, vote)),
+  deleteComment: comment => dispatch(deleteComment(comment))
 })
 
 export default connect(

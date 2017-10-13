@@ -3,6 +3,7 @@ import { Comment, Grid, Statistic, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import dateformat from 'dateformat'
 
+import CommentModal from './CommentModal'
 import './App.css'
 
 class CommentItem extends Component {
@@ -15,9 +16,12 @@ class CommentItem extends Component {
     }
   }
 
+  handleDelete = e => {
+    this.props.deleteComment(this.props.comment)
+  }
+
   render() {
     const { comment } = this.props
-    console.log(comment)
     return (
       <Grid>
         <Grid.Column width={3} textAlign='center'>
@@ -44,8 +48,10 @@ class CommentItem extends Component {
               </Comment.Metadata>
               <Comment.Text>{comment.body}</Comment.Text>
               <Comment.Actions>
-                <Comment.Action>Edit</Comment.Action>
-                <Comment.Action>Delete</Comment.Action>
+                <CommentModal isEdit={true} comment={comment}/>
+                <a className='custom-link' onClick={this.handleDelete}>
+                  Delete
+                </a>
               </Comment.Actions>
             </Comment.Content>
           </Comment>

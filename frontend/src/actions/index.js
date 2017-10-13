@@ -78,7 +78,8 @@ export const fetchPosts = (category = '') => dispatch => {
     .then(filteredPosts => {
       Promise.all(filteredPosts.map(post =>
         API.fetchUrl(`/posts/${post.id}/comments`)
-          .then(comments => ({...post, comments}))
+          .then(comments => comments.filter(c => c.deleted === false))
+          .then(filteredComments => ({...post, comments: filteredComments}))
       )).then(resolvedPosts => dispatch(receivePosts(resolvedPosts)))
     })
 }
@@ -102,6 +103,19 @@ export const voteComment = (comment, vote) => dispatch => {
   return API.fetchUrl(`/comments/${comment.id}`, {
     method: 'post',
     body: JSON.stringify({option: vote})
+  }).then(json => dispatch(fetchPosts()))
+}
+
+export const editComment = comment => dispatch => {
+  return API.fetchUrl(`/comments/${comment.id}`, {
+    method: 'put',
+    body: JSON.stringify({timestamp: comment.timestamp, body: comment.body})
+  }).then(json => dispatch(fetchPosts()))
+}
+
+export const deleteComment = comment => dispatch => {
+  return API.fetchUrl(`/comments/${comment.id}`, {
+    method: 'delete'
   }).then(json => dispatch(fetchPosts()))
 }
 

@@ -2,15 +2,26 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, Modal, Icon } from 'semantic-ui-react'
 
-import { addComment, setUsername } from '../actions'
+import { addComment, editComment, setUsername } from '../actions'
 import { generateId } from '../utils/id'
 
 class CommentModal extends Component {
 
   state = {
+    author: '',
     username: this.props.username,
     body: '',
     open: false,
+  }
+
+  componentDidMount() {
+    const { username, isEdit, comment } = this.props
+    if (isEdit) {
+      this.setState({
+        author: comment.author,
+        body: comment.body,
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,18 +33,19 @@ class CommentModal extends Component {
   handleChange = (e, { name, value }) => this.setState({[name]: value})
 
   handleSubmit = () => {
-    const { username, body } = this.state
+    const { author, username, body } = this.state
+    const { isEdit, comment, addComment, editComment } = this.props
     this.props.setUsername(this.state.username)
-    const comment = {
-      id: generateId(),
+    const newComment = {
+      id: isEdit ? comment.id : generateId(),
       timestamp: Date.now(),
-      author: username,
+      author: isEdit ? author : username,
       parentId: this.props.parentId,
       body
     }
-    this.props.addComment(comment)
+    isEdit ? editComment(newComment) : addComment(newComment)
     this.setState({
-      body: '',
+      body: isEdit ? newComment.body : '',
       open: false
     })
   }
@@ -44,21 +56,26 @@ class CommentModal extends Component {
 
   render() {
     const { open, username, body } = this.state
+    const { isEdit, comment } = this.props
     return (
       <Modal open={open} onClose={() => this.setState({open: false})}
         trigger={
+          isEdit ?
+          <a className='custom-link' onClick={this.handleOpen}>Edit</a> :
           <Button onClick={this.handleOpen}>
             <Icon name='plus'/>ADD COMMENT
           </Button>
         }
       >
         <Modal.Header>
-          Add Comment
+          {
+            isEdit ? 'Edit Comment' : 'Add Comment'
+          }
         </Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group widths='equal'>
-              <Form.Input label='Author' placeholder='Enter a username'
+              <Form.Input disabled={isEdit} label='Author' placeholder='Enter a username'
                 name='username' value={username} onChange={this.handleChange}
               />
             </Form.Group>
@@ -79,6 +96,7 @@ const mapStateToProps = ({ userReducer }) => ({
 
 const mapDispatchToProps = dispatch =>  ({
   addComment: comment => dispatch(addComment(comment)),
+  editComment: comment => dispatch(editComment(comment)),
   setUsername: username => dispatch(setUsername(username))
 })
 
