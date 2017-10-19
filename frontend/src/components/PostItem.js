@@ -46,7 +46,7 @@ class PostItem extends Component {
           </Grid>
         </Item.Image>
         <Item.Content>
-          <Item.Header as={Link} to={`/posts/${post.id}`}>
+          <Item.Header as={Link} to={`/${post.category}/${post.id}`}>
             {post.title}
           </Item.Header>
           <Item.Meta>
@@ -55,7 +55,7 @@ class PostItem extends Component {
           </Item.Meta>
           <Item.Description>{post.body}</Item.Description>
           <Item.Extra>
-            <Link to={`/posts/${post.id}`} className='custom-link'>
+            <Link to={`/${post.category}/${post.id}`} className='custom-link'>
               Comments({post.comments.length})
             </Link>
             <PostModal isEdit={true} post={post}/>
