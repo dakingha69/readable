@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Label } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 import { fetchPosts } from '../actions'
 
@@ -30,7 +31,8 @@ class Categories extends Component {
     const { categories } = this.props
     return (
       <div style={{marginBottom: '25px'}}>
-        <Label size='large' as='a' tag
+        <Label size='large' tag
+          as={Link} to={`/`}
           active={this.state.active === 'all'}
           color='black'
           onClick={this.handleCategoryClick}
@@ -38,7 +40,8 @@ class Categories extends Component {
           all
         </Label>
         {categories && categories.map((category, i) => (
-          <Label size='large' as='a' tag key={i}
+          <Label size='large' tag key={i}
+            as={Link} to={`/${category.name}`}
             active={this.state.active === category.name}
             color={labelColors[i]}
             onClick={this.handleCategoryClick}
