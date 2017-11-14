@@ -55,43 +55,50 @@ class PostDetail extends Component {
     const { post } = this.state
     return (
       <div className="App">
-        <MenuInverted isDetail={true} postId={post.id} />
         {
           post ?
-          <Container>
-            <Grid>
-              <Grid.Column width={3} textAlign='center'>
-                <Grid.Column width={1} className='no-padding-bottom' textAlign='center'>
-                  <Statistic size='small'>
-                    <Statistic.Value>{post.voteScore}</Statistic.Value>
-                  </Statistic>
+          <div>
+            <MenuInverted isDetail={true} postId={post.id} />
+            <Container>
+              <Grid>
+                <Grid.Column width={3} textAlign='center'>
+                  <Grid.Column width={1} className='no-padding-bottom' textAlign='center'>
+                    <Statistic size='small'>
+                      <Statistic.Value>{post.voteScore}</Statistic.Value>
+                    </Statistic>
+                  </Grid.Column>
+                  <Grid.Column className='no-padding-top' style={{float: 'left'}}>
+                    <Button inverted color='red' icon='thumbs down'
+                      onClick={this.handleVote}/>
+                  </Grid.Column>
+                  <Grid.Column style={{float: 'right'}}>
+                    <Button inverted color='green' icon='thumbs up'
+                      onClick={this.handleVote}/>
+                  </Grid.Column>
                 </Grid.Column>
-                <Grid.Column className='no-padding-top' style={{float: 'left'}}>
-                  <Button inverted color='red' icon='thumbs down'
-                    onClick={this.handleVote}/>
+                <Grid.Column width={13}>
+                  <Header as='h1'>{post.title}</Header>
+                  <Header.Subheader>
+                    posted by <strong>{post.author}</strong>&nbsp;
+                    on <strong>{dateformat(post.timestamp)}</strong>&nbsp;
+                    in <Label as='a' tag color={getColor(post.category)}>{post.category}</Label>
+                  </Header.Subheader>
+                  <p style={{fontSize: '18px', marginTop: '10px'}}>{post.body}</p>
+                  <PostModal isEdit={true} post={post} />
+                  <a className='custom-link' onClick={this.handleDeletePost}>
+                    &nbsp;Delete
+                  </a>
                 </Grid.Column>
-                <Grid.Column style={{float: 'right'}}>
-                  <Button inverted color='green' icon='thumbs up'
-                    onClick={this.handleVote}/>
-                </Grid.Column>
-              </Grid.Column>
-              <Grid.Column width={13}>
-                <Header as='h1'>{post.title}</Header>
-                <Header.Subheader>
-                  posted by <strong>{post.author}</strong>&nbsp;
-                  on <strong>{dateformat(post.timestamp)}</strong>&nbsp;
-                  in <Label as='a' tag color={getColor(post.category)}>{post.category}</Label>
-                </Header.Subheader>
-                <p style={{fontSize: '18px', marginTop: '10px'}}>{post.body}</p>
-                <PostModal isEdit={true} post={post} />
-                <a className='custom-link' onClick={this.handleDeletePost}>
-                  &nbsp;Delete
-                </a>
-              </Grid.Column>
-            </Grid>
-            <CommentList comments={post.comments ? post.comments : []} />
-          </Container> :
-          <div>Loading...</div>
+              </Grid>
+              <CommentList comments={post.comments ? post.comments : []} />
+            </Container>
+          </div> :
+          <div>
+            <MenuInverted isDetail={true} noComment={true}/>
+            <Container>
+              Sorry there is no post with such id. Click <a href="/">here</a> to return
+            </Container>
+          </div>
         }
       </div>
     )

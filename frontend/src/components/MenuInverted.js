@@ -15,10 +15,10 @@ class MenuInverted extends Component {
     this.props.setSort(name)
   }
 
-  getDisplay = isDetail => ({ display: isDetail ? 'none' : ''})
+  getDisplay = (isDetail, noComment) => ({ display: isDetail || noComment ? 'none' : ''})
 
   render() {
-    const { sort, isDetail } = this.props
+    const { sort, isDetail, noComment } = this.props
     return (
       <Menu inverted size='large'>
         <Menu.Item as={Link} to='/'>Readable</Menu.Item>
@@ -40,7 +40,7 @@ class MenuInverted extends Component {
           <Menu.Item style={this.getDisplay(isDetail)}>
             <PostModal />
           </Menu.Item>
-          <Menu.Item style={this.getDisplay(!isDetail)}>
+          <Menu.Item style={this.getDisplay(!isDetail, noComment)}>
             <CommentModal parentId={this.props.postId}/>
           </Menu.Item>
           <Menu.Item><UserModal /></Menu.Item>
