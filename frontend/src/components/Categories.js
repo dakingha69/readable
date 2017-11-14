@@ -9,13 +9,11 @@ const labelColors = ['red', 'orange', 'yellow', 'olive', 'green', 'teal', 'blue'
 
 class Categories extends Component {
   state = {
-    active: 'all'
+    active: this.props.category
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.selectedCategory !== nextProps.selectedCategory) {
-      this.changeCategory(nextProps.selectedCategory)
-    }
+  componentDidMount() {
+    this.changeCategory(this.state.active)
   }
 
   handleCategoryClick = (e, { children }) => {

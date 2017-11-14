@@ -23,7 +23,8 @@ ReactDOM.render(
     <Router>
       <div>
         <Route exact path='/' component={App} />
-        <Route exact path='/:category' component={App} />
+        <Route exact path='/:category'
+          render={({match}) => (<App match={match} />)} />
         <Route path='/:category/:id' component={PostDetail} />
       </div>
     </Router>

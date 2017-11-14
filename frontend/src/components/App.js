@@ -15,7 +15,6 @@ class App extends Component {
 
   componentDidMount() {
     this.props.fetchCategories()
-    this.props.fetchPosts()
     this.props.getUsername()
   }
 
@@ -23,7 +22,7 @@ class App extends Component {
     return (
       <div className="App">
         <MenuInverted />
-        <Categories />
+        <Categories category={this.props.match.params.category ? this.props.match.params.category : 'all'} />
         <Container>
           <PostsList />
         </Container>
@@ -40,7 +39,6 @@ const mapStateToProps = ({ categoriesReducer, postsReducer }) => ({
 
 const mapDispatchToProps = dispatch =>  ({
   fetchCategories: () => dispatch(fetchCategories()),
-  fetchPosts: () => dispatch(fetchPosts()),
   getUsername: () => dispatch(getUsername())
 })
 
